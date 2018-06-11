@@ -6,6 +6,7 @@ use App\User;
 use App\Role;
 use App\Photo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 use App\Http\Requests;
 
@@ -30,6 +31,9 @@ class AdminUsersController extends Controller
     public function create()
     {
         $roles = Role::lists('name','id')->all();
+
+
+
         return view('admin.users.create',compact('roles'));
     }
 
@@ -39,7 +43,7 @@ class AdminUsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UsersRequest $request)
+    public function store( UsersRequest $request)
     {
         // User::create($request->all());
         
@@ -53,9 +57,13 @@ class AdminUsersController extends Controller
             $photo = Photo::create(['file'=>$name]);
             $input['photo_id'] = $photo->id;
 
-        }
+        } 
+        
         $input['password'] = bcrypt($request->password);
         User::create($input);
+
+         Session::flash('user_created','User created');
+
         return redirect ('/admin/users');
 
 
@@ -82,6 +90,8 @@ class AdminUsersController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::lists('name','id')->all();
+
+ 
 
         return view('admin.users.edit',compact('user','roles'));
     }
@@ -110,6 +120,7 @@ class AdminUsersController extends Controller
         $input['password'] = bcrypt($request->password);
 
         $user->update($input);
+         Session::flash('user_edited','User edited');
 
         return redirect ('/admin/users');
 
@@ -123,6 +134,13 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+
+        unlink(public_path()  .  $user->photo->file);
+
+        $user->delete();    
+        Session::flash('deleted_user','User deleted');
+
+        return redirect('/admin/users');
     }
 }

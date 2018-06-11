@@ -14,3 +14,4 @@ class Photo extends Model
     }
 
 }
+

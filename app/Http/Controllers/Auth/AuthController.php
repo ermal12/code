@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use    App\Http\Controllers\Auth\Auth;
 
 class AuthController extends Controller
 {
@@ -28,7 +29,22 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected function authenticated($request, $ireneuser)
+   {
+   $ireneusers=Auth::user();
+    
+        if($ireneusers->role->name == 'admin') {
+            return redirect()->intended('/admin');
+        }
+   
+    elseif($ireneusers->role->name == 'author') {
+            return redirect()->intended('/author');
+        }
+
+        return redirect()->intended('/');
+    }
+    // protected $redirectTo = '/admin';
+
 
     /**
      * Create a new authentication controller instance.
@@ -61,6 +77,13 @@ class AuthController extends Controller
      * @param  array  $data
      * @return User
      */
+
+
+
+
+
+
+
     protected function create(array $data)
     {
         return User::create([
@@ -69,4 +92,6 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+
 }
