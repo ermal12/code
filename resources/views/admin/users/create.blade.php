@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-@include('includes.form_errors')
 	<h1>Create Users</h1>
 
 
@@ -28,10 +27,6 @@
 
 
 	</div>
-	{!! Form::close() !!}
-
-
-
 
 
 
@@ -58,6 +53,7 @@
 		{!! Form::submit('Create User',['class'=>'btn btn-primary']) !!}
 		</div>
 
+@include('includes.form_errors')
 
 
 	{!! Form::close() !!}

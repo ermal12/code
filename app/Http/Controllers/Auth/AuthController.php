@@ -29,22 +29,11 @@ class AuthController extends Controller
      *
      * @var string
      */
-    protected function authenticated($request, $ireneuser)
-   {
-   $ireneusers=Auth::user();
-    
-        if($ireneusers->role->name == 'admin') {
-            return redirect()->intended('/admin');
-        }
    
-    elseif($ireneusers->role->name == 'author') {
-            return redirect()->intended('/author');
-        }
 
-        return redirect()->intended('/');
-    }
-    // protected $redirectTo = '/admin';
 
+
+    protected $redirectTo = '/admin';
 
     /**
      * Create a new authentication controller instance.

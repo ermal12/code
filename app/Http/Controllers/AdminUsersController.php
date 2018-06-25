@@ -135,12 +135,16 @@ class AdminUsersController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        // Check if the post has a photo:
+        if(isset($post->photo->file)) {
+        unlink(public_path() . $post->photo->file);
+        }
+ 
+        $user->delete(); 
+  
+         return redirect('/admin/users');
+}
 
-        unlink(public_path()  .  $user->photo->file);
 
-        $user->delete();    
-        Session::flash('deleted_user','User deleted');
 
-        return redirect('/admin/users');
-    }
 }
