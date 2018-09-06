@@ -1,11 +1,11 @@
 {
   "private": true,
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "gulp": "^4.0.0"
-      },
+    "babel-cli": "^6.26.0"
+  },
   "dependencies": {
     "bootstrap-sass": "^3.0.0",
+    "gulp": "^3.9.1",
     "laravel-echo": "^1.4.0",
     "laravel-elixir": "^5.0.0",
     "minimatch": "^3.0.4",
